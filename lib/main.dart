@@ -6,6 +6,7 @@ import 'hom_screen.dart';
 
 void main()async{
   WidgetsFlutterBinding.ensureInitialized();
+  //await FirebaseFirestore.instance.disableNetwork();
   await Firebase.initializeApp();
   runApp(MyApp());
 }
