@@ -5,15 +5,15 @@ class FirebaseUtils {
   static CollectionReference<Task> getTasksCollection() {
     return FirebaseFirestore.instance
         .collection(Task.collectionName)
-        .withConverter(
-            fromFirestore: ((Snapshot, option) =>
-                Task.fromFireStore(Snapshot.data()!)),
-            toFirestore: (task, option) => task.toFireStore());
+        .withConverter<Task>(
+            fromFirestore: ((snapshot, option) =>
+                Task.fromFireStore(snapshot.data()!)),
+            toFirestore: (tasks, option) => tasks.toFireStore());
   }
 
   static Future<void> addTaskToFireStore(Task task) {
     var taskCollectionRef = getTasksCollection(); // collection
-    var taskDocRef = taskCollectionRef.doc(); //document
+    DocumentReference<Task> taskDocRef = taskCollectionRef.doc(); //document
     task.id = taskDocRef.id; //auto id
     return taskDocRef.set(task);
   }

@@ -24,7 +24,7 @@ class Task {
           title: data['title'] as String,
           description: data['description'] as String,
           dateTime: DateTime.fromMillisecondsSinceEpoch(data['dateTime']),
-          isDone: data['isDone'] as bool,
+          isDone: data!['isDone'] as bool,
         );
 
   Map<String, dynamic> toFireStore() {
@@ -32,7 +32,7 @@ class Task {
       'id': id,
       'title': title,
       'description': description,
-      'dataTime': dateTime.millisecondsSinceEpoch,
+      'dateTime': dateTime.millisecondsSinceEpoch,
       'isDone': isDone
     };
   }

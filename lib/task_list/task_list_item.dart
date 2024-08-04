@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:new_todo_list/app_color.dart';
 
+import '../model/task.dart';
+
 class TaskListItem extends StatelessWidget {
+  Task task;
+
+  TaskListItem({required this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -73,12 +78,17 @@ class TaskListItem extends StatelessWidget {
               Expanded(child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Title ' , style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: AppColor.primaryAppColor,
+                  Text(
+                    task.title,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: AppColor.primaryAppColor,
                     fontSize: 22
                   ),),
-                  Text('Descriprion ', style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontSize: 16
+                  Text(task.description,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(fontSize: 16
                   )),
                 ],
               )),

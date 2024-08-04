@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:new_todo_list/firebase_utils.dart';
 import 'package:new_todo_list/model/task.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/provider.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
   @override
@@ -89,6 +92,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   void showCalender() async {
     var chosenDate = await showDatePicker(
         context: context,
+        initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(Duration(days: 365)));
     selectedDate = chosenDate ?? selectedDate;
@@ -96,13 +100,20 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   }
 
   void addTask() {
+    // var listProvider = Provider.of<ListProvider>(context);
     if (formkey.currentState?.validate() == true) {
       //add task
       Task task =
           Task(title: title, description: description, dateTime: selectedDate);
+      var listProvider = Provider.of<ListProvider>(context, listen: false);
+
+      ///Provider.of<ListProvider>(context);
+
       FirebaseUtils.addTaskToFireStore(task).timeout(Duration(seconds: 1),
           onTimeout: () {
         print('Task added successfully');
+        listProvider.getAllTasksFromFireStore();
+        // ListProvider.getAllTasksFromFireStore();
         Navigator.pop(context);
       });
     }
