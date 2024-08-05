@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:new_todo_list/app_color.dart';
+import 'package:new_todo_list/provider/app_config_provider.dart';
 import 'package:new_todo_list/settings/theme_bottom_sheet.dart';
+import 'package:provider/provider.dart';
 
 import 'language_bottom_sheet.dart';
 
@@ -12,12 +15,19 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
+    var locale = AppLocalizations.of(context)!;
+    var appConfigProvider = Provider.of<AppConfigProvider>(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.all(10),
-          child: Text('Language' ,style:  Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 18) ),
+          child: Text(locale.language,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontSize: 18)),
         ),
         InkWell(
           onTap: (){
@@ -34,15 +44,27 @@ class _SettingsState extends State<Settings> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('English' , style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppColor.primaryAppColor),),
-              Icon(Icons.arrow_drop_down , size: 35,color: AppColor.primaryAppColor,)
+                Text(
+                  appConfigProvider.appLanguage == 'en'
+                      ? locale.english
+                      : locale.arabic,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(color: AppColor.primaryAppColor),
+                ),
+                Icon(Icons.arrow_drop_down , size: 35,color: AppColor.primaryAppColor,)
             ],
           ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(10),
-          child: Text('Theme' ,style:  Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 18) ),
+          child: Text(locale.theme,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontSize: 18)),
         ),
         InkWell(
           onTap: (){
@@ -59,8 +81,16 @@ class _SettingsState extends State<Settings> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('light mode' , style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppColor.primaryAppColor),),
-              Icon(Icons.arrow_drop_down , size: 35,color: AppColor.primaryAppColor,)
+                Text(
+                  appConfigProvider.appTheme == ThemeMode.light
+                      ? locale.light_mode
+                      : locale.dark_mode,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(color: AppColor.primaryAppColor),
+                ),
+                Icon(Icons.arrow_drop_down , size: 35,color: AppColor.primaryAppColor,)
             ],
           ),
           ),
