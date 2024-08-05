@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:new_todo_list/app_color.dart';
 import 'package:new_todo_list/settings/settings.dart';
 import 'package:new_todo_list/task_list/add_task_bottom_sheet.dart';
@@ -15,12 +16,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var locale = AppLocalizations.of(context)!;
 
     return  Scaffold(
       appBar:AppBar(
          toolbarHeight: MediaQuery.of(context).size.height*0.20,
         backgroundColor: AppColor.primaryAppColor,
-        title: Text('To Do List' , style: Theme.of(context).textTheme.titleLarge,),
+        title: Text(
+          locale.app_title,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add ,size: 35, color: AppColor.whiteColor,),
@@ -43,9 +48,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
           },
           items: [
-          BottomNavigationBarItem(icon: Icon(Icons.list, size: 35, ), label: 'List' ),
-          BottomNavigationBarItem(icon: Icon(Icons.settings , size: 35, ), label: 'settings'),
-        ],),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.list,
+                  size: 35,
+                ),
+                label: locale.list),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.settings,
+                  size: 35,
+                ),
+                label: locale.settings),
+          ],),
       ),
       body:
           Column(
