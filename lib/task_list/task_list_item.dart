@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:new_todo_list/app_color.dart';
+import 'package:new_todo_list/firebase_utils.dart';
+import 'package:new_todo_list/provider/provider.dart';
+import 'package:provider/provider.dart';
 
 import '../model/task.dart';
 
@@ -13,6 +16,7 @@ class TaskListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
+    var listProvider = Provider.of<ListProvider>(context);
 
     return  Container(
       margin: EdgeInsets.all(8),
@@ -27,7 +31,16 @@ class TaskListItem extends StatelessWidget {
             SlidableAction(
               borderRadius: BorderRadius.circular(15),
 
-              onPressed: (context){},
+              onPressed: (context){
+                ///delete task
+                FirebaseUtils.deleteTaskFromFireStore(task).timeout(
+                  Duration(milliseconds: 500),onTimeout: (){
+                    print('tasks deleted successfully');
+                    listProvider.getAllTasksFromFireStore();
+                }
+                );
+
+              },
               backgroundColor: AppColor.redColor,
               foregroundColor: Colors.white,
               icon: Icons.delete,

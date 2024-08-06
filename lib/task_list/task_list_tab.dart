@@ -21,8 +21,9 @@ class _TaskListTabState extends State<TaskListTab> {
     return Column(
       children: [
         EasyDateTimeLine(
-          initialDate: DateTime.now(),
+          initialDate: listProvider.selectDate,
           onDateChange: (selectedDate) {
+            listProvider.changeSelectDate(selectedDate);
             //`selectedDate` the new date selected.
           },
           headerProps: const EasyHeaderProps(
