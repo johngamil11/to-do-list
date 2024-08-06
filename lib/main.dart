@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:new_todo_list/auth/register/register.dart';
 import 'package:new_todo_list/my%20theme%20data.dart';
 import 'package:new_todo_list/provider/app_config_provider.dart';
 import 'package:new_todo_list/provider/provider.dart';
@@ -42,9 +43,10 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale(appConfigProvider.appLanguage),
-      initialRoute: HomeScreen.routeName,
+      initialRoute: Register.routeName,
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
+        Register.routeName: (context) => Register(),
       },
     );
   }
