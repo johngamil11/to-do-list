@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:new_todo_list/app_color.dart';
 
+typedef myValidator = String? Function(String?)?;
+
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({super.key});
+  String label;
+
+  myValidator validator;
+
+  TextEditingController controller;
+
+  TextInputType keyboard;
+
+  bool obscure;
+
+  CustomTextFormField(
+      {required this.label,
+      required this.validator,
+      required this.controller,
+      this.keyboard = TextInputType.text,
+      this.obscure = false});
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +48,13 @@ class CustomTextFormField extends StatelessWidget {
                     ,width: 2
                 )
             ),
-          ),
-        ),
+            labelText: label,
+            labelStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        validator: validator,
+        controller: controller,
+        keyboardType: keyboard,
+        obscureText: obscure,
+      ),
     );
 
   }}
