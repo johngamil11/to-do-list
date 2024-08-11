@@ -2,14 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:new_todo_list/app_color.dart';
 import 'package:new_todo_list/auth/register/custom_text_form_field.dart';
+import 'package:new_todo_list/auth/register/register.dart';
 
-class Register extends StatelessWidget {
-static const String routeName = 'register_screen' ;
+class Login extends StatelessWidget {
+static const String routeName = 'login_screen' ;
 
-TextEditingController nameController = TextEditingController(text: 'John');
   TextEditingController emilController = TextEditingController(text: 'Johngamil10@gmail.com');
   TextEditingController passwordController = TextEditingController(text: '123456');
-  TextEditingController confirmPasswordController = TextEditingController(text: '123456');
   var formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ TextEditingController nameController = TextEditingController(text: 'John');
             elevation: 0,
             backgroundColor: Colors.transparent,
             title: Text(
-              'Create Account',
+              'Login In',
               style: TextStyle(color: AppColor.whiteColor),
             ),
             centerTitle: true,
@@ -43,16 +42,9 @@ TextEditingController nameController = TextEditingController(text: 'John');
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.25,
                     ),
-                    CustomTextFormField(
-                      label: 'User Name',
-                      controller: nameController,
-                      keyboard: TextInputType.number,
-                      validator: (text) {
-                        if (text == null || text.trim().isEmpty) {
-                          return 'Please Enter User Name';
-                        }
-                        return null;
-                      },
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Welcome Back!', style: Theme.of(context).textTheme.titleMedium,),
                     ),
                     CustomTextFormField(
                       label: 'Emil',
@@ -86,60 +78,50 @@ TextEditingController nameController = TextEditingController(text: 'John');
                         return null;
                       },
                     ),
-                    CustomTextFormField(
-                      label: 'Confirm Password',
-                      obscure: true,
-                      controller: confirmPasswordController,
-                      keyboard: TextInputType.text,
-                      validator: (text) {
-                        if (text == null || text.trim().isEmpty) {
-                          return 'Please Enter Confirm passeord';
-                        }
-                        if (text != passwordController.text) {
-                          return "confirm password doesn't match password.";
-                        }
-                        return null;
-                      },
-                    ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
                           onPressed: () {
-                            register();
+                            login();
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.primaryAppColor),
                           child: Text(
-                            'Create Account',
+                            'Login In',
                             style: Theme.of(context).textTheme.titleLarge,
                           )),
-                    )
+
+                    ),
+                    TextButton(onPressed: (){
+                      Navigator.of(context).pushNamed(Register.routeName);
+                    }, child: Text('OR Create Account'))
+
                   ],
                 ),
               )),
-        )
+        ),
       ],
     );
   }
 
-void register()async {
-    if (formKey.currentState?.validate() == true) {
-      try {
-        final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+void login() async {
+    if (formKey.currentState?.validate() == true) {try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emilController.text,
-          password: passwordController.text,
-        );
-        print('register successfully');
-        print(credential.user?.uid ?? '');
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          print('The password provided is too weak.');
-        } else if (e.code == 'email-already-in-use') {
-          print('The account already exists for that email.');
-        }
-      } catch (e) {
-        print(e);
-      }
+          password: passwordController.text
+      );
+      print(credential.user?.uid ?? '');
+      print('login successfully');
     }
+    // on FirebaseAuthException catch (e) {
+    //   if (e.code == 'user-not-found') {
+    //     print('No user found for that email.');
+    //   } else if (e.code == 'wrong-password') {
+    //     print('Wrong password provided for that user.');
+    //   }}
+    catch(e){
+        print(e.toString());
+    }
+    }}
   }
-}
+
